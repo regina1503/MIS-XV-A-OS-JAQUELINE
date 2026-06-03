@@ -125,13 +125,12 @@
             <div class="absolute inset-0 bg-gradient-to-t from-[#110204]/90 via-transparent to-black/40 z-10"></div>
             
             <!-- Brillo del sello con transparencia aumentada (Reducido de 110px a 88px) -->
-            <div class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[88px] h-[88px] rounded-full bg-[#af8b4d]/25 pointer-events-none pulse-soft z-20"></div>
+            <div class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[88px] h-[88px] rounded-full bg-[#af8b4d]/15 pointer-events-none pulse-soft z-20"></div>
             
-            <!-- Botón del sello de lacre virtual con diseño elegante (Reducido de 90px a 72px) -->
+            <!-- Botón del sello de lacre virtual totalmente transparente -->
             <button id="secret-seal-button" 
-                    class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[72px] h-[72px] rounded-full bg-gradient-to-br from-[#d4af37] via-[#af8b4d] to-[#7c5f2b] shadow-2xl border-2 border-[#fff]/20 cursor-pointer focus:outline-none z-30 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center"
+                    class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[72px] h-[72px] rounded-full bg-transparent border-0 cursor-pointer focus:outline-none z-50"
                     title="Haz clic en el sello para abrir">
-                <span class="font-serif-elegant font-bold text-amber-100 text-xl drop-shadow">J</span>
             </button>
             
             <div class="absolute bottom-16 left-0 right-0 text-center text-amber-200/80 text-xs tracking-[0.35em] uppercase font-semibold animate-pulse px-4 z-20">
@@ -285,11 +284,10 @@
         <!-- VESTIMENTA -->
         <section class="max-w-md mx-auto text-center mb-16 px-6 reveal">
             <div class="bg-black/20 p-6 rounded-2xl border border-amber-500/10">
-                <i class="fas fa-user-tie text-amber-400 text-xl mb-3"></i>
                 <h4 class="font-serif-elegant text-base text-amber-200 mb-1">Código de Vestimenta</h4>
                 <p class="text-[#af8b4d] font-bold uppercase text-xs tracking-widest mb-3">Formal</p>
                 <p class="text-xs text-amber-100/70 font-light leading-relaxed">
-                    Con mucho cariño, les solicitamos evitar el color rojo en su vestimenta, ya que estara reservado solo  para la festejada.
+                    Con mucho cariño te pedimos que evites el uso del <span class="text-red-400 font-bold">color rojo</span> en tu vestimenta, ya que este estará reservado solo para la quinceañera.
                 </p>
             </div>
         </section>
@@ -308,7 +306,7 @@
                 <i class="fas fa-envelope-open-text text-amber-400 text-2xl mb-3"></i>
                 <h4 class="font-serif-elegant text-sm text-[#af8b4d] uppercase tracking-widest mb-3">Un Detalle Especial</h4>
                 <p class="text-xs text-amber-100/80 font-light leading-relaxed max-w-xs mx-auto">
-                    Para mí lo más importante es contar con tu presencia en este día tan especial. Pero si deseas honrarme con un presente, agradecería que fuera en efectivo a través de mi lluvia de sobres el día del evento. ¡Muchas gracias!
+                    Para mí lo más importante es contar con tu presencia en este día tan especial. Si deseas honrarme con un presente, agradecería que fuera en efectivo a través de mi lluvia de sobres el día del evento. ¡Muchas gracias!
                 </p>
             </div>
         </section>
@@ -547,15 +545,8 @@
                 this.rotation = Math.random() * 360;
                 this.spinSpeed = Math.random() * 1.5 - 0.75;
                 
-                // Distribución de colores: 40% rojo, 40% oro, 20% rosa/ámbar suave
-                const r = Math.random();
-                if (r < 0.4) {
-                    this.color = Math.random() > 0.5 ? '#b31b2c' : '#801012'; // Rojo / Carmín
-                } else if (r < 0.8) {
-                    this.color = Math.random() > 0.5 ? '#af8b4d' : '#e5c158'; // Oro / Oro Claro
-                } else {
-                    this.color = 'rgba(254, 243, 199, 0.85)'; // Ámbar / Crema translúcido
-                }
+                // Color de los corazones/pétalos: exclusivamente tonos de rojo para resaltar sobre el fondo
+                this.color = Math.random() > 0.5 ? '#b31b2c' : '#801012'; 
             }
             update() {
                 this.y += this.speedY; 
