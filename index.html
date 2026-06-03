@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mis xv años Jaqueline ❤️</title>
     
     <!-- METATAGS PARA COMPARTIR EN WHATSAPP, FACEBOOK Y OTRAS REDES (VISTA PREVIA) -->
@@ -18,12 +18,29 @@
     <meta name="twitter:description" content="Te invito a celebrar este día tan especial para mí. Misa y Recepción en el Salón Jardín Bellavento. ¡No faltes!">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/portadas.jpg">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#801012',
+                            redDark: '#4a080a',
+                            gold: '#af8b4d',
+                            goldLight: '#d4af37',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -38,12 +55,12 @@
         
         .fade-out { animation: fadeOut 1.2s forwards ease-in-out; }
         .fade-in-up { animation: fadeInUp 1.5s forwards cubic-bezier(0.16, 1, 0.3, 1); }
-        .pulse-soft { animation: pulseSoft 2s infinite; }
+        .pulse-soft { animation: pulseSoft 2.5s infinite ease-in-out; }
         .pulse-heart { animation: pulseHeart 1.5s infinite; }
         
         @keyframes fadeOut {
             0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.15); pointer-events: none; }
+            100% { opacity: 0; transform: scale(1.1); pointer-events: none; }
         }
         @keyframes fadeInUp {
             0% { opacity: 0; transform: translateY(40px); }
@@ -51,11 +68,11 @@
         }
         @keyframes pulseSoft {
             0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.35; }
+            50% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.45; }
         }
         @keyframes pulseHeart {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.25); }
+            50% { transform: scale(1.2); }
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -69,9 +86,10 @@
 
         /* Estilos personalizados para el formulario */
         input[type="radio"]:checked + label {
-            background-color: rgba(175, 139, 77, 0.2);
+            background-color: rgba(175, 139, 77, 0.25);
             border-color: #af8b4d;
-            color: #af8b4d;
+            color: #fef3c7;
+            box-shadow: 0 0 12px rgba(175, 139, 77, 0.2);
         }
 
         /* EFECTO DE APARICIÓN GRADUAL (REVEAL ON SCROLL) */
@@ -88,83 +106,88 @@
 </head>
 <body class="bg-custom-red text-amber-100 font-body overflow-x-hidden min-h-screen relative selection:bg-amber-500 selection:text-black">
 
+    <!-- CANVAS PARA LLUVIA DE PÉTALOS -->
     <canvas id="petal-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-40"></canvas>
 
     <!-- REPRODUCTOR MÓVIL DISCRETO (FLOTANTE) -->
-    <div id="music-control" class="fixed bottom-6 right-6 z-50 bg-black/60 border border-amber-500/40 p-3 rounded-full shadow-2xl cursor-pointer transition-all duration-300 transform hover:scale-110 hidden flex items-center justify-center w-12 h-12 backdrop-blur-sm">
+    <div id="music-control" class="fixed bottom-6 right-6 z-50 bg-black/80 border border-amber-500/40 p-3 rounded-full shadow-2xl cursor-pointer transition-all duration-300 transform hover:scale-110 hidden flex items-center justify-center w-12 h-12 backdrop-blur-sm">
         <i id="music-icon" class="fas fa-music text-amber-400"></i>
     </div>
 
     <!-- PANTALLA 1: PORTADA / SOBRE -->
     <div id="envelope-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#110204]">
-        <div class="relative w-full h-full max-w-[500px] max-h-[900px] shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+        <div class="relative w-full h-full max-w-[500px] max-h-[900px] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col justify-center items-center">
             <img src="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/Jaqueline.jpg" 
                  alt="Portada Jaqueline" 
-                 class="w-full h-full object-cover"
+                 class="absolute inset-0 w-full h-full object-cover z-0"
                  onerror="this.src='https://images.unsplash.com/photo-1519225495810-7512c696505a?q=80&w=1000';">
             
-            <!-- Brillo del sello con transparencia aumentada (de /20 a /15) -->
-            <div class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[102px] h-[102px] rounded-full bg-[#af8b4d]/15 pointer-events-none pulse-soft"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#110204]/90 via-transparent to-black/40 z-10"></div>
             
-            <!-- Botón del sello -->
+            <!-- Brillo del sello con transparencia aumentada (Reducido de 110px a 88px) -->
+            <div class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[88px] h-[88px] rounded-full bg-[#af8b4d]/25 pointer-events-none pulse-soft z-20"></div>
+            
+            <!-- Botón del sello de lacre virtual con diseño elegante (Reducido de 90px a 72px) -->
             <button id="secret-seal-button" 
-                    class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-transparent border-0 cursor-pointer focus:outline-none z-50"
+                    class="absolute top-[73%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[72px] h-[72px] rounded-full bg-gradient-to-br from-[#d4af37] via-[#af8b4d] to-[#7c5f2b] shadow-2xl border-2 border-[#fff]/20 cursor-pointer focus:outline-none z-30 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center"
                     title="Haz clic en el sello para abrir">
+                <span class="font-serif-elegant font-bold text-amber-100 text-xl drop-shadow">J</span>
             </button>
             
-            <div class="absolute bottom-12 left-0 right-0 text-center text-[#af8b4d]/60 text-xs tracking-[0.3em] uppercase font-semibold animate-pulse px-4">
+            <div class="absolute bottom-16 left-0 right-0 text-center text-amber-200/80 text-xs tracking-[0.35em] uppercase font-semibold animate-pulse px-4 z-20">
                 Toca el sello para abrir
             </div>
         </div>
     </div>
 
     <!-- PANTALLA 2: CONTENIDO -->
-    <div id="invitation-content" class="hidden min-h-screen flex flex-col items-center py-12 px-4 relative">
+    <div id="invitation-content" class="hidden min-h-screen flex flex-col items-center py-12 px-4 relative max-w-2xl mx-auto">
         
         <!-- ENCABEZADO (Aparición inmediata al abrir) -->
         <header class="text-center max-w-xl mx-auto mb-6 fade-in-up">
-            <p class="text-amber-400 font-serif-elegant uppercase tracking-[0.3em] text-sm">Mis XV Años</p>
-            <h1 class="text-7xl sm:text-8xl font-cursive text-amber-200 my-6 drop-shadow-lg">Jaqueline</h1>
+            <p class="text-amber-400 font-serif-elegant uppercase tracking-[0.3em] text-sm mb-2">Mis XV Años</p>
+            <h1 class="text-7xl sm:text-8xl font-cursive text-amber-200 my-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">Jaqueline</h1>
             <div class="w-32 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
         </header>
 
         <!-- REPRODUCTOR DE MÚSICA EMBEBIDO (Aparición inmediata al abrir) -->
-        <section class="w-full max-w-xs mx-auto bg-black/35 border border-[#af8b4d]/20 backdrop-blur-md rounded-full py-2 px-4 mb-12 flex items-center gap-4 justify-between shadow-lg fade-in-up" style="animation-delay: 0.1s;">
-            <button id="embed-play-btn" class="w-8 h-8 bg-[#af8b4d] text-black rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shrink-0">
+        <section class="w-full max-w-xs mx-auto bg-black/45 border border-[#af8b4d]/40 backdrop-blur-md rounded-full py-2.5 px-4 mb-12 flex items-center gap-4 justify-between shadow-xl fade-in-up" style="animation-delay: 0.1s;">
+            <button id="embed-play-btn" class="w-9 h-9 bg-gradient-to-br from-[#d4af37] to-[#af8b4d] text-black rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shrink-0 shadow-md">
                 <i id="embed-play-icon" class="fas fa-pause text-xs"></i>
             </button>
-            <div class="flex-1 bg-white/10 h-1 rounded-full overflow-hidden cursor-pointer" id="progress-bar-container">
-                <div id="progress-bar-fill" class="bg-[#af8b4d] h-full w-0 transition-all duration-100"></div>
+            <div class="flex-1 bg-white/10 h-1.5 rounded-full overflow-hidden cursor-pointer" id="progress-bar-container">
+                <div id="progress-bar-fill" class="bg-gradient-to-r from-[#d4af37] to-[#af8b4d] h-full w-0 transition-all duration-100"></div>
             </div>
             <div class="shrink-0">
-                <span id="audio-time" class="text-xs text-[#af8b4d]/80 font-mono">0:00</span>
+                <span id="audio-time" class="text-xs text-[#af8b4d] font-semibold font-mono">0:00</span>
             </div>
         </section>
 
         <!-- FRASE INICIAL (Aparición inmediata al abrir) -->
         <section class="max-w-md mx-auto text-center mb-10 px-6 fade-in-up" style="animation-delay: 0.2s;">
-            <p class="italic text-amber-50/95 font-light leading-relaxed text-base sm:text-lg mb-6">
+            <p class="italic text-amber-50/90 font-light leading-relaxed text-base sm:text-lg mb-6">
                 "Hay momentos que son especiales por sí solos, pero compartirlos con las personas que más quiero los hace inolvidables."
             </p>
+            
             <!-- MENSAJE DE BIENVENIDA DINÁMICO (Reubicado aquí debajo de la frase) -->
-            <div id="personalized-welcome" class="hidden py-4 border-t border-b border-[#af8b4d]/10 max-w-xs mx-auto">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-[#af8b4d] mb-1 font-semibold">Invitado de Honor</p>
+            <div id="personalized-welcome" class="hidden py-4 border-t border-b border-[#af8b4d]/30 max-w-xs mx-auto my-4 bg-black/10 rounded-2xl px-4">
+                <p class="text-[10px] uppercase tracking-[0.25em] text-amber-400 mb-1 font-semibold">Invitado de Honor</p>
                 <p class="text-2xl sm:text-3xl font-cursive text-amber-200"></p>
             </div>
         </section>
 
-        <!-- IMAGEN DECORATIVA 1 (Animación de desplazamiento) -->
+        <!-- IMAGEN DECORATIVA 1 -->
         <section class="max-w-xs mx-auto mb-16 px-4 flex justify-center reveal">
             <img src="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/7749a4339811a8173e484bcec34291a7-Photoroom.png" 
                  alt="Detalle Floral" 
-                 class="w-56 sm:w-64 h-auto drop-shadow-[0_4px_15px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500"
+                 class="w-56 sm:w-64 h-auto drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] transform hover:scale-105 transition-transform duration-500"
                  onerror="this.style.display='none';">
         </section>
 
-        <!-- CALENDARIO INTERACTIVO (Animación de desplazamiento) -->
-        <section class="w-full max-w-sm mx-auto bg-black/20 border border-amber-500/20 backdrop-blur-sm rounded-3xl p-6 mb-12 text-center shadow-xl reveal">
-            <h3 class="text-amber-300 font-serif-elegant uppercase tracking-widest text-xs mb-4">Julio 2026</h3>
-            <div class="grid grid-cols-7 gap-2 text-center text-xs text-amber-100/60 font-semibold border-b border-amber-500/10 pb-2 mb-3">
+        <!-- CALENDARIO INTERACTIVO -->
+        <section class="w-full max-w-sm mx-auto bg-black/30 border border-amber-500/30 backdrop-blur-sm rounded-3xl p-6 mb-12 text-center shadow-2xl reveal">
+            <h3 class="text-amber-400 font-serif-elegant uppercase tracking-widest text-xs mb-4">Julio 2026</h3>
+            <div class="grid grid-cols-7 gap-2 text-center text-xs text-amber-100/60 font-semibold border-b border-amber-500/20 pb-2 mb-3">
                 <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
             </div>
             <div class="grid grid-cols-7 gap-y-3 gap-x-2 text-sm text-amber-100">
@@ -174,164 +197,180 @@
                 <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
                 <div class="relative flex items-center justify-center">
                     <span class="z-10 font-bold text-amber-950">19</span>
-                    <i class="fas fa-heart text-red-500 absolute text-3xl pulse-heart"></i>
+                    <i class="fas fa-heart text-red-600 absolute text-3xl pulse-heart"></i>
                 </div>
                 <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
                 <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
             </div>
             
             <!-- BOTÓN PARA AGENDAR EN CALENDARIO -->
-            <div class="mt-6 pt-4 border-t border-amber-500/10 flex flex-col items-center gap-3">
+            <div class="mt-6 pt-4 border-t border-amber-500/20 flex flex-col items-center gap-3">
                 <p class="text-[11px] text-[#af8b4d] italic">¡Reserva la fecha en tu corazón!</p>
                 <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+A%C3%B1os+de+Jaqueline&dates=20260719T180000/20260720T020000&details=Te+invito+a+celebrar+este+d%C3%ADa+tan+especial+para+m%C3%AD.+Misa+y+Recepci%C3%B3n+en+el+Sal%C3%B3n+Jard%C3%ADn+Bellavento.&location=Sal%C3%B3n+Jard%C3%ADn+Bellavento&sf=true&output=xml" 
                    target="_blank" 
-                   class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-[#af8b4d]/50 hover:bg-[#af8b4d] hover:text-white rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 active:scale-95 text-[#af8b4d]">
+                   class="inline-flex items-center gap-2 px-6 py-2.5 bg-transparent border border-[#af8b4d] hover:bg-[#af8b4d] hover:text-white rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 active:scale-95 text-[#af8b4d] hover:shadow-lg">
                     <i class="far fa-calendar-plus text-sm"></i> Agendar Evento
                 </a>
             </div>
         </section>
 
-        <!-- CONTADOR (Animación de desplazamiento) -->
-        <section class="w-full max-w-lg mx-auto bg-black/20 border border-amber-500/20 backdrop-blur-sm rounded-3xl p-8 mb-20 text-center shadow-xl reveal">
+        <!-- CONTADOR -->
+        <section class="w-full max-w-lg mx-auto bg-black/30 border border-amber-500/30 backdrop-blur-sm rounded-3xl p-6 sm:p-8 mb-20 text-center shadow-2xl reveal">
             <h3 class="text-amber-400 uppercase tracking-widest text-xs font-bold mb-6">Faltan sólo:</h3>
-            <div class="grid grid-cols-4 gap-3">
-                <div class="bg-black/30 p-3 rounded-xl border border-amber-500/10">
-                    <span id="days" class="block text-3xl font-serif-elegant text-amber-300" style="font-size: 0.96em;">00</span>
-                    <span class="text-[10px] text-amber-200/60 uppercase">Días</span>
+            <div class="grid grid-cols-4 gap-2 sm:gap-4">
+                <div class="bg-black/40 p-2 sm:p-4 rounded-2xl border border-amber-500/15">
+                    <span id="days" class="block text-2xl sm:text-3xl font-serif-elegant text-amber-300 font-bold">00</span>
+                    <span class="text-[9px] sm:text-[10px] text-amber-200/60 uppercase tracking-wider">Días</span>
                 </div>
-                <div class="bg-black/30 p-3 rounded-xl border border-amber-500/10">
-                    <span id="hours" class="block text-3xl font-serif-elegant text-amber-300" style="font-size: 0.96em;">00</span>
-                    <span class="text-[10px] text-amber-200/60 uppercase">Hrs</span>
+                <div class="bg-black/40 p-2 sm:p-4 rounded-2xl border border-amber-500/15">
+                    <span id="hours" class="block text-2xl sm:text-3xl font-serif-elegant text-amber-300 font-bold">00</span>
+                    <span class="text-[9px] sm:text-[10px] text-amber-200/60 uppercase tracking-wider">Horas</span>
                 </div>
-                <div class="bg-black/30 p-3 rounded-xl border border-amber-500/10">
-                    <span id="minutes" class="block text-3xl font-serif-elegant text-amber-300" style="font-size: 0.96em;">00</span>
-                    <span class="text-[10px] text-amber-200/60 uppercase">Min</span>
+                <div class="bg-black/40 p-2 sm:p-4 rounded-2xl border border-amber-500/15">
+                    <span id="minutes" class="block text-2xl sm:text-3xl font-serif-elegant text-amber-300 font-bold">00</span>
+                    <span class="text-[9px] sm:text-[10px] text-amber-200/60 uppercase tracking-wider">Min</span>
                 </div>
-                <div class="bg-black/30 p-3 rounded-xl border border-amber-500/10">
-                    <span id="seconds" class="block text-3xl font-serif-elegant text-amber-300" style="font-size: 0.96em;">00</span>
-                    <span class="text-[10px] text-amber-200/60 uppercase">Seg</span>
+                <div class="bg-black/40 p-2 sm:p-4 rounded-2xl border border-amber-500/15">
+                    <span id="seconds" class="block text-2xl sm:text-3xl font-serif-elegant text-amber-300 font-bold animate-pulse">00</span>
+                    <span class="text-[9px] sm:text-[10px] text-amber-200/60 uppercase tracking-wider">Seg</span>
                 </div>
             </div>
         </section>
 
-        <!-- PADRES Y MADRINA (Animación de desplazamiento) -->
+        <!-- PADRES Y MADRINA -->
         <section class="max-w-2xl mx-auto text-center mb-10 px-4 reveal">
-            <h3 class="text-amber-400 font-serif-elegant uppercase tracking-widest text-sm mb-10">Con la bendición de</h3>
-            <div class="grid md:grid-cols-2 gap-8 mb-10">
-                <div class="p-8 bg-black/10 border border-amber-500/10 rounded-3xl">
-                    <h4 class="text-xs uppercase tracking-widest text-amber-400/80 mb-4">Mis Padres</h4>
-                    <p class="text-xl text-amber-100">Roberto Lopez</p>
-                    <p class="text-xl text-amber-100 mt-1">Lupita Jaime</p>
+            <h3 class="text-amber-400 font-serif-elegant uppercase tracking-widest text-xs sm:text-sm mb-10">Con la bendición de</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-10">
+                <div class="p-6 bg-black/15 border border-amber-500/10 rounded-3xl backdrop-blur-sm">
+                    <h4 class="text-[10px] uppercase tracking-widest text-amber-400/80 mb-3 font-semibold">Mis Padres</h4>
+                    <p class="text-lg sm:text-xl text-amber-100 font-medium">Roberto Lopez</p>
+                    <p class="text-lg sm:text-xl text-amber-100 font-medium mt-1">Lupita Jaime</p>
                 </div>
-                <div class="p-8 bg-black/10 border border-amber-500/10 rounded-3xl">
-                    <h4 class="text-xs uppercase tracking-widest text-amber-400/80 mb-4">Mi Madrina</h4>
-                    <p class="text-xl text-amber-100">Joselin Orosco</p>
+                <div class="p-6 bg-black/15 border border-amber-500/10 rounded-3xl backdrop-blur-sm">
+                    <h4 class="text-[10px] uppercase tracking-widest text-amber-400/80 mb-3 font-semibold">Mi Madrina</h4>
+                    <p class="text-lg sm:text-xl text-amber-100 font-medium">Joselin Orosco</p>
                 </div>
             </div>
-            <div class="mt-8 px-6 max-w-lg mx-auto">
+            <div class="mt-8 px-4 max-w-lg mx-auto">
                 <p class="font-cursive text-amber-200 text-3xl sm:text-4xl leading-relaxed">
                     "Te invito a celebrar este día tan especial para mi."
                 </p>
             </div>
         </section>
 
-        <!-- UBICACIÓN UNIFICADA (Animación de desplazamiento) -->
+        <!-- UBICACIÓN UNIFICADA -->
         <section class="w-full max-w-lg mx-auto mb-20 px-4 reveal">
-            <div class="bg-black/20 border-t border-b border-[#af8b4d]/30 py-12 px-6 text-center rounded-3xl shadow-2xl">
-                <i class="fas fa-glass-cheers text-[#af8b4d] text-3xl mb-4"></i>
-                <h3 class="text-2xl font-serif-elegant text-amber-200 mb-2">Misa y Recepción</h3>
-                <p class="text-[#af8b4d] font-semibold mb-6 tracking-widest text-sm">6:00 PM</p>
-                <p class="text-2xl text-amber-100 font-bold mb-6">Salón Jardín Bellavento</p>
+            <div class="bg-black/30 border border-[#af8b4d]/40 py-10 px-6 text-center rounded-3xl shadow-2xl backdrop-blur-sm">
+                <i class="fas fa-glass-cheers text-amber-400 text-3xl mb-4"></i>
+                <h3 class="text-2xl sm:text-3xl font-serif-elegant text-amber-200 mb-2">Misa y Recepción</h3>
+                <p class="text-[#af8b4d] font-bold mb-6 tracking-widest text-sm">6:00 PM</p>
+                <p class="text-xl sm:text-2xl text-amber-100 font-bold mb-6">Salón Jardín Bellavento</p>
                 
-                <!-- IMAGEN DEL COFRE ORIGINAL (Actualizada al nuevo enlace de GitHub, aumentada un 20% y recortada) -->
+                <!-- COFRE DE LLUVIA DE SOBRES -->
                 <div class="flex justify-center mb-8 overflow-hidden">
                     <img src="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/34ca48efbbc65816a79879a42a215e96.png" 
                          alt="Cofre Lluvia de Sobres" 
-                         class="w-[158px] h-auto drop-shadow-lg"
-                         style="clip-path: inset(10% 0);"
+                         class="w-[150px] h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300"
+                         style="clip-path: inset(8% 0);"
                          onerror="this.style.display='none';">
                 </div>
                 
                 <!-- Botón de ubicación GPS -->
-                <a href="https://maps.app.goo.gl/smzDbujW9XMPE1hR7" target="_blank" class="inline-block px-10 py-4 bg-[#af8b4d] text-white rounded-full font-bold uppercase text-xs tracking-widest hover:bg-[#967641] transition-colors shadow-lg active:scale-95">
-                    <i class="fas fa-map-marker-alt mr-2"></i> Ver Mapa
+                <a href="https://maps.app.goo.gl/smzDbujW9XMPE1hR7" target="_blank" class="inline-block px-10 py-4 bg-gradient-to-br from-[#d4af37] via-[#af8b4d] to-[#7c5f2b] text-amber-950 rounded-full font-bold uppercase text-xs tracking-widest hover:brightness-110 hover:shadow-xl transition-all shadow-lg active:scale-95">
+                    <i class="fas fa-map-marker-alt mr-2 text-red-900"></i> Ver Mapa
                 </a>
             </div>
         </section>
 
-        <!-- VESTIMENTA (Animación de desplazamiento) -->
+        <!-- VESTIMENTA -->
         <section class="max-w-md mx-auto text-center mb-16 px-6 reveal">
-            <h4 class="font-serif-elegant text-lg text-amber-200 mb-2">Vestimenta</h4>
-            <p class="text-[#af8b4d] font-bold uppercase text-sm tracking-widest mb-3">Formal</p>
-            <p class="text-sm text-amber-100/60 font-light">
-                El color rojo estara destinado solo para la quinceañera, es por ello que te pedimos que evites usarlo en tu vestimenta.
-            </p>
-        </section>
-
-        <!-- IMAGEN DECORATIVA 2 (Animación de desplazamiento) -->
-        <section class="max-w-xs mx-auto mb-16 px-4 flex justify-center reveal">
-            <img src="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/87bd010aec6ebecaa9aef69642229a6b-Photoroom.png" 
-                 alt="Decoración Floral de Cierre" 
-                 class="w-64 sm:w-72 h-auto drop-shadow-xl transform hover:scale-105 transition-transform duration-500"
-                 onerror="this.style.display='none';">
-        </section>
-        
-        <!-- SUGERENCIA DE REGALOS (Animación de desplazamiento) -->
-        <section class="w-full max-w-sm mx-auto mb-20 px-4 text-center reveal">
-            <div class="bg-black/25 border border-[#af8b4d]/10 rounded-2xl p-6 shadow-xl">
-                <h4 class="font-serif-elegant text-sm text-[#af8b4d] uppercase tracking-widest mb-3">Un Detalle Especial</h4>
-                <p class="text-xs text-amber-100/70 font-light leading-relaxed max-w-xs mx-auto">
-                    Para mí lo más importante es contar con tu presencia en este día tan especial. Si deseas honrarme con un presente, y aun no sabes que, te agradecería que fuera en efectivo a través de mi lluvia de sobres el día del evento. ¡Muchas gracias!
+            <div class="bg-black/20 p-6 rounded-2xl border border-amber-500/10">
+                <i class="fas fa-user-tie text-amber-400 text-xl mb-3"></i>
+                <h4 class="font-serif-elegant text-base text-amber-200 mb-1">Código de Vestimenta</h4>
+                <p class="text-[#af8b4d] font-bold uppercase text-xs tracking-widest mb-3">Formal</p>
+                <p class="text-xs text-amber-100/70 font-light leading-relaxed">
+                    Con mucho cariño, les solicitamos evitar el color rojo en su vestimenta, ya que estara reservado solo  para la festejada.
                 </p>
             </div>
         </section>
 
-        <!-- RSVP (CONFIRMACIÓN) CON FORMULARIO (Animación de desplazamiento) -->
-        <section class="w-full max-w-lg mx-auto bg-black/40 border border-[#af8b4d]/30 rounded-3xl p-8 sm:p-10 shadow-2xl mb-12 text-center relative overflow-hidden reveal">
-            <h3 class="text-2xl font-serif-elegant text-amber-200 mb-4">Confirmación</h3>
+        <!-- IMAGEN DECORATIVA 2 -->
+        <section class="max-w-xs mx-auto mb-16 px-4 flex justify-center reveal">
+            <img src="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/87bd010aec6ebecaa9aef69642229a6b-Photoroom.png" 
+                 alt="Decoración Floral de Cierre" 
+                 class="w-64 sm:w-72 h-auto drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                 onerror="this.style.display='none';">
+        </section>
+        
+        <!-- SUGERENCIA DE REGALOS -->
+        <section class="w-full max-w-sm mx-auto mb-20 px-4 text-center reveal">
+            <div class="bg-black/30 border border-[#af8b4d]/20 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
+                <i class="fas fa-envelope-open-text text-amber-400 text-2xl mb-3"></i>
+                <h4 class="font-serif-elegant text-sm text-[#af8b4d] uppercase tracking-widest mb-3">Un Detalle Especial</h4>
+                <p class="text-xs text-amber-100/80 font-light leading-relaxed max-w-xs mx-auto">
+                    Para mí lo más importante es contar con tu presencia en este día tan especial. Pero si deseas honrarme con un presente, agradecería que fuera en efectivo a través de mi lluvia de sobres el día del evento. ¡Muchas gracias!
+                </p>
+            </div>
+        </section>
+
+        <!-- RSVP (CONFIRMACIÓN) CON FORMULARIO -->
+        <section class="w-full max-w-lg mx-auto bg-black/40 border border-[#af8b4d]/40 rounded-3xl p-6 sm:p-10 shadow-2xl mb-12 text-center relative overflow-hidden reveal">
+            <h3 class="text-2xl sm:text-3xl font-serif-elegant text-amber-200 mb-4">Confirmación</h3>
             
-            <p class="text-sm italic text-amber-100/90 max-w-sm mx-auto mb-8 leading-relaxed">
+            <p class="text-xs sm:text-sm italic text-amber-100/90 max-w-sm mx-auto mb-8 leading-relaxed">
                 "Tu presencia es de suma importancia para mí. Compartir este momento con las personas que más aprecio completará mi felicidad."
             </p>
             
             <form id="rsvp-form" class="text-left space-y-6">
                 <div>
-                    <label class="block text-xs uppercase tracking-widest text-[#af8b4d]/80 mb-2 font-semibold">Nombre y Apellido</label>
+                    <label class="block text-xs uppercase tracking-widest text-amber-400 mb-2 font-semibold">Nombre y Apellido</label>
                     <input type="text" id="guest-name" required minlength="6" placeholder="Escribe tu nombre completo" 
-                           class="w-full bg-black/30 border border-[#af8b4d]/20 rounded-xl px-4 py-3 text-amber-100 placeholder:text-amber-100/20 focus:outline-none focus:border-[#af8b4d] transition-colors">
-                    <p id="name-error" class="text-[10px] text-red-400 mt-1 hidden">Por favor, escribe al menos 6 caracteres.</p>
+                           class="w-full bg-black/40 border border-[#af8b4d]/30 rounded-xl px-4 py-3 text-amber-100 placeholder:text-amber-100/20 focus:outline-none focus:border-[#af8b4d] focus:ring-1 focus:ring-[#af8b4d] transition-all">
+                    <p id="name-error" class="text-[10px] text-red-400 mt-1.5 hidden"><i class="fas fa-exclamation-circle mr-1"></i>Por favor, escribe al menos tu nombre y un apellido completo (mínimo 6 caracteres).</p>
                 </div>
 
                 <div>
-                    <label class="block text-xs uppercase tracking-widest text-[#af8b4d]/80 mb-3 font-semibold text-center">¿Nos acompañarás?</label>
+                    <label class="block text-xs uppercase tracking-widest text-amber-400 mb-3 font-semibold text-center">¿Nos acompañarás?</label>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="relative">
                             <input type="radio" name="attendance" id="att-yes" value="Asistiré" checked class="hidden">
-                            <label for="att-yes" class="flex items-center justify-center py-3 bg-black/20 border border-[#af8b4d]/20 rounded-xl cursor-pointer hover:border-[#af8b4d] transition-all text-sm font-bold uppercase tracking-wider">
+                            <label for="att-yes" class="flex items-center justify-center py-3 bg-black/30 border border-[#af8b4d]/30 rounded-xl cursor-pointer hover:border-[#af8b4d] transition-all text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-100/70">
                                 Sí, asistiré
                             </label>
                         </div>
                         <div class="relative">
                             <input type="radio" name="attendance" id="att-no" value="No asistiré" class="hidden">
-                            <label for="att-no" class="flex items-center justify-center py-3 bg-black/20 border border-[#af8b4d]/20 rounded-xl cursor-pointer hover:border-[#af8b4d] transition-all text-sm font-bold uppercase tracking-wider">
+                            <label for="att-no" class="flex items-center justify-center py-3 bg-black/30 border border-[#af8b4d]/30 rounded-xl cursor-pointer hover:border-[#af8b4d] transition-all text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-100/70">
                                 No asistiré
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Botón Dorado -->
+                <!-- Botón Dorado de Confirmación -->
                 <button type="submit" 
-                        class="w-full py-5 bg-[#af8b4d] text-white rounded-2xl font-bold uppercase text-sm tracking-[0.2em] hover:bg-[#967641] transition-all shadow-xl flex items-center justify-center gap-3 active:scale-95">
-                    <i class="fab fa-whatsapp text-xl animate-pulse"></i> Enviar Confirmación
+                        class="w-full py-4 bg-gradient-to-br from-[#d4af37] via-[#af8b4d] to-[#7c5f2b] text-amber-950 rounded-xl font-bold uppercase text-xs sm:text-sm tracking-[0.2em] hover:brightness-110 hover:shadow-xl transition-all shadow-xl flex items-center justify-center gap-3 active:scale-95">
+                    <i class="fab fa-whatsapp text-lg animate-pulse"></i> Enviar Confirmación
                 </button>
             </form>
         </section>
 
+        <!-- TOAST / MODAL DE CONFIRMACIÓN DE ENVÍO -->
+        <div id="success-toast" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+            <div class="bg-[#1e0305] border border-amber-500/40 p-8 rounded-3xl max-w-sm w-[90%] text-center shadow-2xl transform scale-95 transition-transform duration-300">
+                <div class="w-16 h-16 bg-gradient-to-br from-[#d4af37] to-[#af8b4d] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-check text-black text-2xl"></i>
+                </div>
+                <h4 class="font-serif-elegant text-xl text-amber-200 mb-2">¡Cargando WhatsApp!</h4>
+                <p class="text-xs text-amber-100/80 mb-6 leading-relaxed">Estamos preparando tu confirmación de asistencia. Por favor, pulsa "Enviar" en tu aplicación de WhatsApp.</p>
+                <button id="close-toast-btn" class="px-6 py-2 border border-[#af8b4d] text-amber-300 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-[#af8b4d] hover:text-white transition-all">Entendido</button>
+            </div>
+        </div>
+
         <!-- CIERRE -->
         <section class="text-center my-16 reveal">
             <h2 class="font-cursive text-amber-200 text-5xl mb-3 animate-pulse">¡No faltes!</h2>
-            <p class="text-[10px] text-[#af8b4d]/60 font-serif-elegant uppercase tracking-[0.4em]">Jaqueline</p>
+            <p class="text-[10px] text-[#af8b4d] font-serif-elegant uppercase tracking-[0.4em]">Jaqueline</p>
         </section>
 
         <footer class="text-center text-amber-500/30 text-[10px] tracking-[0.4em] uppercase py-10 border-t border-amber-500/10 w-full max-w-xs">
@@ -359,12 +398,14 @@
         const progressFill = document.getElementById('progress-bar-fill');
         const progressContainer = document.getElementById('progress-bar-container');
 
-        // Formulario
+        // Formulario y Feedback UI
         const rsvpForm = document.getElementById('rsvp-form');
+        const successToast = document.getElementById('success-toast');
+        const closeToastBtn = document.getElementById('close-toast-btn');
 
         let isMusicPlaying = false;
 
-        // Apertura
+        // Apertura de sobre
         sealButton.addEventListener('click', () => {
             envelopeScreen.classList.add('fade-out');
             setTimeout(() => {
@@ -430,14 +471,14 @@
             if (bgAudio.duration) bgAudio.currentTime = percentage * bgAudio.duration;
         });
 
-        // Lógica del Formulario a WhatsApp
+        // Lógica del Formulario a WhatsApp con Modal Intermedio Elegante
         rsvpForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('guest-name').value;
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
             
-            // Validación extra de longitud
-            if (name.trim().length < 6) {
+            // Validación robusta de longitud y espacios para evitar nombres ficticios vacíos
+            if (name.trim().length < 6 || !name.trim().includes(' ')) {
                 document.getElementById('name-error').classList.remove('hidden');
                 return;
             } else {
@@ -447,12 +488,31 @@
             const message = encodeURIComponent(`¡Hola Jaqueline! Soy ${name}. Confirmo que ${attendance} a tus XV años. ✨`);
             const whatsappURL = `https://wa.me/523327589350?text=${message}`;
             
-            window.open(whatsappURL, '_blank');
+            // Mostrar modal de éxito
+            successToast.classList.remove('hidden');
+            setTimeout(() => {
+                successToast.classList.remove('opacity-0');
+                successToast.querySelector('div').classList.remove('scale-95');
+            }, 10);
+
+            // Redirigir a WhatsApp tras un pequeño retardo
+            setTimeout(() => {
+                window.open(whatsappURL, '_blank');
+            }, 1600);
+        });
+
+        // Cerrar modal de confirmación manualmente
+        closeToastBtn.addEventListener('click', () => {
+            successToast.classList.add('opacity-0');
+            successToast.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                successToast.classList.add('hidden');
+            }, 300);
         });
 
         // Validación dinámica de nombre
         document.getElementById('guest-name').addEventListener('input', (e) => {
-            if (e.target.value.trim().length >= 6) {
+            if (e.target.value.trim().length >= 6 && e.target.value.trim().includes(' ')) {
                 document.getElementById('name-error').classList.add('hidden');
             }
         });
@@ -469,7 +529,7 @@
             document.getElementById("seconds").innerText = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // Pétalos
+        // Pétalos multi-tonos refinados
         const canvas = document.getElementById('petal-canvas');
         const ctx = canvas.getContext('2d');
         let petalsArray = [];
@@ -481,27 +541,48 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height - canvas.height;
-                this.size = Math.random() * 7 + 7;
-                this.speedY = Math.random() * 1.5 + 1;
-                this.speedX = Math.random() * 1 - 0.5;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 1.2 + 0.8;
+                this.speedX = Math.random() * 1.5 - 0.75;
                 this.rotation = Math.random() * 360;
-                this.color = Math.random() > 0.5 ? '#b31b2c' : '#801012';
+                this.spinSpeed = Math.random() * 1.5 - 0.75;
+                
+                // Distribución de colores: 40% rojo, 40% oro, 20% rosa/ámbar suave
+                const r = Math.random();
+                if (r < 0.4) {
+                    this.color = Math.random() > 0.5 ? '#b31b2c' : '#801012'; // Rojo / Carmín
+                } else if (r < 0.8) {
+                    this.color = Math.random() > 0.5 ? '#af8b4d' : '#e5c158'; // Oro / Oro Claro
+                } else {
+                    this.color = 'rgba(254, 243, 199, 0.85)'; // Ámbar / Crema translúcido
+                }
             }
             update() {
-                this.y += this.speedY; this.x += this.speedX; this.rotation += 1;
-                if (this.y > canvas.height) { this.y = -20; this.x = Math.random() * canvas.width; }
+                this.y += this.speedY; 
+                this.x += this.speedX; 
+                this.rotation += this.spinSpeed;
+                if (this.y > canvas.height) { 
+                    this.y = -20; 
+                    this.x = Math.random() * canvas.width; 
+                    this.speedY = Math.random() * 1.2 + 0.8;
+                }
             }
             draw() {
-                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotation * Math.PI / 180);
-                ctx.beginPath(); ctx.fillStyle = this.color;
-                ctx.moveTo(0,0); ctx.bezierCurveTo(-this.size, -this.size/2, -this.size, this.size, 0, this.size*1.5);
+                ctx.save(); 
+                ctx.translate(this.x, this.y); 
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.beginPath(); 
+                ctx.fillStyle = this.color;
+                ctx.moveTo(0, 0); 
+                ctx.bezierCurveTo(-this.size, -this.size/2, -this.size, this.size, 0, this.size*1.5);
                 ctx.bezierCurveTo(this.size, this.size, this.size, -this.size/2, 0, 0);
-                ctx.fill(); ctx.restore();
+                ctx.fill(); 
+                ctx.restore();
             }
         }
 
         function initPetals() {
-            for (let i = 0; i < 35; i++) petalsArray.push(new Petal());
+            for (let i = 0; i < 40; i++) petalsArray.push(new Petal());
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 petalsArray.forEach(p => { p.update(); p.draw(); });
@@ -518,33 +599,32 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        revealObserver.unobserve(entry.target); // Dejar de observar tras animar
+                        revealObserver.unobserve(entry.target); // Animado una sola vez
                     }
                 });
             }, {
-                threshold: 0.1, // Se activa cuando el 10% del elemento entra en pantalla
-                rootMargin: "0px 0px -50px 0px" // Margen inferior para mejor tiempo de respuesta
+                threshold: 0.1, 
+                rootMargin: "0px 0px -40px 0px"
             });
 
             reveals.forEach(el => revealObserver.observe(el));
         }
 
-        // --- SISTEMA INTELIGENTE DE PERSONALIZACIÓN POR ENLACE (URL) ---
+        // --- SISTEMA DE PERSONALIZACIÓN POR ENLACE (URL) ---
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to'); // Busca el parámetro "?to=Nombre+Invitado"
+            const guestName = urlParams.get('to'); // Obtiene "?to=Nombre+Invitado"
 
             if (guestName) {
-                // Decodificar el nombre de manera correcta
                 const cleanName = decodeURIComponent(guestName).trim();
                 
-                // Rellenar automáticamente el campo del formulario
+                // Rellenar dinámicamente campo de confirmación
                 const nameInput = document.getElementById('guest-name');
                 if (nameInput) {
                     nameInput.value = cleanName;
                 }
                 
-                // Mostrar el mensaje especial de bienvenida personalizado justo después de la frase inicial
+                // Revelar el contenedor de bienvenida personalizado
                 const welcomeContainer = document.getElementById('personalized-welcome');
                 if (welcomeContainer) {
                     const nameSpan = welcomeContainer.querySelector('.font-cursive');
