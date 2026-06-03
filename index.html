@@ -8,7 +8,7 @@
     <!-- METATAGS PARA COMPARTIR EN WHATSAPP, FACEBOOK Y OTRAS REDES (VISTA PREVIA) -->
     <meta property="og:title" content="Mis xv años Jaqueline ❤️">
     <meta property="og:description" content="Te invito a celebrar este día tan especial para mí. Misa y Recepción en el Salón Jardín Bellavento. ¡No faltes!">
-    <meta property="og:image" content="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/Jaqueline.jpg">
+    <meta property="og:image" content="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/portadas.jpg">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -16,7 +16,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mis xv años Jaqueline ❤️">
     <meta name="twitter:description" content="Te invito a celebrar este día tan especial para mí. Misa y Recepción en el Salón Jardín Bellavento. ¡No faltes!">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/Jaqueline.jpg">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/regina1503/MIS-XV-A-OS-JAQUELINE/main/portadas.jpg">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -143,9 +143,14 @@
 
         <!-- FRASE INICIAL (Aparición inmediata al abrir) -->
         <section class="max-w-md mx-auto text-center mb-10 px-6 fade-in-up" style="animation-delay: 0.2s;">
-            <p class="italic text-amber-50/95 font-light leading-relaxed text-base sm:text-lg">
+            <p class="italic text-amber-50/95 font-light leading-relaxed text-base sm:text-lg mb-6">
                 "Hay momentos que son especiales por sí solos, pero compartirlos con las personas que más quiero los hace inolvidables."
             </p>
+            <!-- MENSAJE DE BIENVENIDA DINÁMICO (Reubicado aquí debajo de la frase) -->
+            <div id="personalized-welcome" class="hidden py-4 border-t border-b border-[#af8b4d]/10 max-w-xs mx-auto">
+                <p class="text-[10px] uppercase tracking-[0.25em] text-[#af8b4d] mb-1 font-semibold">Invitado de Honor</p>
+                <p class="text-2xl sm:text-3xl font-cursive text-amber-200"></p>
+            </div>
         </section>
 
         <!-- IMAGEN DECORATIVA 1 (Animación de desplazamiento) -->
@@ -284,6 +289,7 @@
         <!-- RSVP (CONFIRMACIÓN) CON FORMULARIO (Animación de desplazamiento) -->
         <section class="w-full max-w-lg mx-auto bg-black/40 border border-[#af8b4d]/30 rounded-3xl p-8 sm:p-10 shadow-2xl mb-12 text-center relative overflow-hidden reveal">
             <h3 class="text-2xl font-serif-elegant text-amber-200 mb-4">Confirmación</h3>
+            
             <p class="text-sm italic text-amber-100/90 max-w-sm mx-auto mb-8 leading-relaxed">
                 "Tu presencia es de suma importancia para mí. Compartir este momento con las personas que más aprecio completará mi felicidad."
             </p>
@@ -522,6 +528,33 @@
 
             reveals.forEach(el => revealObserver.observe(el));
         }
+
+        // --- SISTEMA INTELIGENTE DE PERSONALIZACIÓN POR ENLACE (URL) ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestName = urlParams.get('to'); // Busca el parámetro "?to=Nombre+Invitado"
+
+            if (guestName) {
+                // Decodificar el nombre de manera correcta
+                const cleanName = decodeURIComponent(guestName).trim();
+                
+                // Rellenar automáticamente el campo del formulario
+                const nameInput = document.getElementById('guest-name');
+                if (nameInput) {
+                    nameInput.value = cleanName;
+                }
+                
+                // Mostrar el mensaje especial de bienvenida personalizado justo después de la frase inicial
+                const welcomeContainer = document.getElementById('personalized-welcome');
+                if (welcomeContainer) {
+                    const nameSpan = welcomeContainer.querySelector('.font-cursive');
+                    if (nameSpan) {
+                        nameSpan.textContent = cleanName;
+                    }
+                    welcomeContainer.classList.remove('hidden');
+                }
+            }
+        });
     </script>
 </body>
 </html>
